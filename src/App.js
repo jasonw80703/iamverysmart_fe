@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <div className="container mt-3">
           <Switch>
-            <Route exact path={["/", "/sentences"]} component={SentencesList} />
+            <Route exact path={["/"]} component={SentencesList} />
           </Switch>
         </div>
     </div>
