@@ -5,6 +5,8 @@ Writing an essay and need to extend the number of pages?
 
 Impress your boss or your professor by using `iamverysmart`!
 
+![example](public/example.png)
+
 ## Example
 
 `Input:` I find your lack of faith disturbing.
