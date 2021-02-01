@@ -26,12 +26,14 @@ export default class SentencesList extends Component {
     this.fetchSentences = this.fetchSentences.bind(this);
     this.onChangeSentence = this.onChangeSentence.bind(this);
     this.findOrCreateSentence = this.findOrCreateSentence.bind(this);
+    this.copyToClipboard = this.copyToClipboard.bind(this);
 
     this.state = {
       sentences: [],
       id: null,
       original: '',
       translated: null,
+      copySuccess: false,
     }
   }
 
@@ -69,6 +71,7 @@ export default class SentencesList extends Component {
           id: response.data.id,
           original: response.data.original,
           translated: response.data.translated,
+          copySuccess: false,
         });
         console.log(response.data);
         this.fetchSentences();
@@ -78,34 +81,55 @@ export default class SentencesList extends Component {
       });
   }
 
+  copyToClipboard() {
+    const el = document.createElement('textarea');
+    el.value = this.state.translated;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+    this.setState({
+      copySuccess: true
+    });
+  }
+
   render() {
-    const { sentences, original, translated } = this.state;
+    const { sentences, original, translated, copySuccess } = this.state;
 
     return (
-      <div class="container">
-        <h1 class='main-header'>iamverysmart</h1>
-        <div class="row input-row mb-5">
-          <div class="col-md-8 offset-md-2">
-            <div class="input-group">
+      <div className="container">
+        <h1 className='main-header'>iamverysmart</h1>
+        <div className="row input-row mb-5">
+          <div className="col-md-8 offset-md-2">
+            <div className="input-group">
               <input
                 type="text"
-                class="form-control sentence-input mr-2"
+                className="form-control sentence-input mr-2"
                 aria-label="text input"
                 placeholder="Sentence to translate"
                 value={original}
                 onChange={this.onChangeSentence}
                 maxLength='100'
               />
-              <button class="btn btn-outline-primary" type="button" onClick={this.findOrCreateSentence}>Translate</button>
+              <button className="btn btn-outline-primary" type="button" onClick={this.findOrCreateSentence}>Translate</button>
             </div>
           </div>
         </div>
         {translated && (
-          <div class="row justify-content-center">
-            <h4 class="mb-5">{translated}</h4>
+          <div>
+            <div className="row justify-content-center">
+              <h4 id="translated" onClick={this.copyToClipboard}>{translated}</h4>
+            </div>
+            <div className="row justify-content-center">
+              {copySuccess && <p>Copied!</p>}
+            </div>
           </div>
         )}
-        <div class="row">
+        <div className="row mt-3">
           <table className="table table-sm table-bordered">
             <thead>
               <tr>

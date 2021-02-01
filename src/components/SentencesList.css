@@ -1,3 +1,7 @@
 .main-header {
   font-size: 175px;
 }
+
+#translated:hover {
+  cursor: pointer;
+}
