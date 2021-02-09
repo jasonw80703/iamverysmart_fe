@@ -61,8 +61,14 @@ export default class SentencesList extends Component {
   }
 
   findOrCreateSentence() {
+    const { original } = this.state;
+
+    if (original == '') {
+      return;
+    }
+
     var data = {
-      original: this.state.original,
+      original: original,
     };
 
     SentenceDataService.create(data)
